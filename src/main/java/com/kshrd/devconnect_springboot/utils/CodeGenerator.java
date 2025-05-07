@@ -1,6 +1,6 @@
 package com.kshrd.devconnect_springboot.utils;
 
-import com.kshrd.devconnect_springboot.model.entity.TestCase;
+import com.kshrd.devconnect_springboot.model.templeJsonb.TestCase;
 
 import java.util.List;
 import java.util.stream.Collectors;

@@ -5,6 +5,7 @@ package com.kshrd.devconnect_springboot.model.entity;
 import java.util.Date;
 import java.util.List;
 
+import com.kshrd.devconnect_springboot.model.templeJsonb.TestCase;
 import lombok.*;
 @Data
 @NoArgsConstructor

@@ -2,7 +2,7 @@ package com.kshrd.devconnect_springboot.config;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kshrd.devconnect_springboot.model.entity.TestCase;
+import com.kshrd.devconnect_springboot.model.templeJsonb.TestCase;
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
 

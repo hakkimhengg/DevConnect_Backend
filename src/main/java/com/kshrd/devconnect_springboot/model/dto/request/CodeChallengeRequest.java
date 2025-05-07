@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 import java.util.List;
 
-import com.kshrd.devconnect_springboot.model.entity.TestCase;
+import com.kshrd.devconnect_springboot.model.templeJsonb.TestCase;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;

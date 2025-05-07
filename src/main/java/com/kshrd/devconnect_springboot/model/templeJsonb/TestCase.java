@@ -1,4 +1,4 @@
-package com.kshrd.devconnect_springboot.model.entity;
+package com.kshrd.devconnect_springboot.model.templeJsonb;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
