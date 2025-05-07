@@ -13,6 +13,5 @@ import lombok.NoArgsConstructor;
 public class SubmitCodeRequest {
     @NotBlank(message = "code is required")
     private String code;
-    @NotBlank(message = "time submit is required")
     private Long timeSubmitted;
 }

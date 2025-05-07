@@ -43,23 +43,23 @@ public interface CodeChallengeRepository {
     // INSERT CodeChallenge
     @Select("""
         INSERT INTO code_challenge
-        (title, description, test_case, problem_detail, created_at, score, creator_id, starter_code, langauge)
+        (title, description, test_case, problem_detail, created_at, score, creator_id, starter_code, language)
         VALUES 
         (
-            #{codeChallenge.title}, 
-            #{codeChallenge.description}, 
-            #{codeChallenge.testCase , typeHandler=com.kshrd.devconnect_springboot.config.TestCaseListTypeHandler}, 
-            #{codeChallenge.problemDetail}, 
-            #{codeChallenge.createdAt}, 
-            #{codeChallenge.score}, 
-            #{creatorId}, 
-            #{codeChallenge.starterCode}, 
+            #{codeChallenge.title},
+            #{codeChallenge.description},
+            #{codeChallenge.testCase , typeHandler=com.kshrd.devconnect_springboot.config.TestCaseListTypeHandler},
+            #{codeChallenge.problemDetail},
+            #{codeChallenge.createdAt},
+            #{codeChallenge.score},
+            #{creatorId},
+            #{codeChallenge.starterCode},
             #{codeChallenge.language}
         )
         RETURNING *;
         """)
         @ResultMap("BaseResultMap")
-    CodeChallenge insertCodeChallenge(@Param("codeChallenge") CodeChallengeRequest entity , UUID creatorId);
+    CodeChallenge insertCodeChallenge(@Param("codeChallenge") CodeChallengeRequest codeChallengeRequest , UUID creatorId);
 
     // UPDATE  CodeChallenge
     @Select("""
@@ -72,7 +72,7 @@ public interface CodeChallengeRepository {
          created_at = #{codeChallenge.createdAt},
          score = #{codeChallenge.score},
          starter_code = #{codeChallenge.starterCode},
-         langauge = #{codeChallenge.language}
+         language = #{codeChallenge.language}
     WHERE challenge_id = #{id}
     RETURNING *;
     """)
