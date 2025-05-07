@@ -1,5 +1,6 @@
 package com.kshrd.devconnect_springboot.base;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 public class BaseController {
@@ -12,4 +13,5 @@ public class BaseController {
                 .status(apiResponse.getStatus())
                 .body(apiResponse);
     }
+
 }

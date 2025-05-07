@@ -1,19 +1,21 @@
 package com.kshrd.devconnect_springboot.config;
 
+import org.apache.ibatis.type.BaseTypeHandler;
+import org.apache.ibatis.type.JdbcType;
+import org.springframework.stereotype.Component;
+
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.UUID;
 
-import org.apache.ibatis.type.*;
-
-@MappedJdbcTypes(JdbcType.OTHER)
-@MappedTypes(UUID.class)
+@Component
 public class UuidTypeHandler extends BaseTypeHandler<UUID> {
+
     @Override
     public void setNonNullParameter(PreparedStatement ps, int i, UUID parameter, JdbcType jdbcType) throws SQLException {
-        ps.setObject(i, parameter, jdbcType.TYPE_CODE);
+        ps.setObject(i, parameter); // Store UUID as string
     }
 
     @Override
@@ -28,7 +30,7 @@ public class UuidTypeHandler extends BaseTypeHandler<UUID> {
 
     @Override
     public UUID getNullableResult(CallableStatement cs, int columnIndex) throws SQLException {
+
         return cs.getObject(columnIndex, UUID.class);
     }
 }
-

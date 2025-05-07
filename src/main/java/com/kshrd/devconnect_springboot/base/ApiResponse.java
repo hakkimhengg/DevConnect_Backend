@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Getter
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ApiResponse{
+public class ApiResponse {
     private Boolean success;
     private String message;
     private HttpStatus status;
