@@ -26,7 +26,4 @@ public class AppUserRequest {
     @NotBlank
     @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!]).{8,}$", message = "Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, and one special character (@#$%^&+=!).")
     private String password;
-
-    @NotBlank
-    private String profileImageUrl;
 }
