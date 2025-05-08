@@ -30,6 +30,7 @@ public class UuidTypeHandler extends BaseTypeHandler<UUID> {
 
     @Override
     public UUID getNullableResult(CallableStatement cs, int columnIndex) throws SQLException {
+
         return cs.getObject(columnIndex, UUID.class);
     }
 }
