@@ -43,7 +43,7 @@ public class AuthServiceImplementation implements AuthService {
 
     private void authenticate(String email, String password) {
         try {
-            AppUser appUser = appUserRepository.getUserByEmail(email);
+            AppUser appUser = authRepository.getUserByEmail(email);
 
             if (appUser == null) {
                 throw new NotFoundException("Invalid email");
@@ -65,7 +65,7 @@ public class AuthServiceImplementation implements AuthService {
 
     @Override
     public AuthResponse login(AuthRequest authRequest) {
-        AppUser appUser = appUserRepository.getUserByEmail(authRequest.getEmail());
+        AppUser appUser = authRepository.getUserByEmail(authRequest.getEmail());
         if(appUser == null) throw new BadRequestException("User is not registered");
         if(!appUser.getIsVerified()) throw new BadRequestException("User needs to verify before login");
 
@@ -78,7 +78,7 @@ public class AuthServiceImplementation implements AuthService {
     @SneakyThrows
     @Override
     public AppUserResponse register(AppUserRequest appUserRequest) {
-        if (appUserRepository.getUserByEmail(appUserRequest.getEmail()) != null) throw new BadRequestException("User already exist");
+        if (authRepository.getUserByEmail(appUserRequest.getEmail()) != null) throw new BadRequestException("User already exist");
         appUserRequest.setPassword(passwordEncoder.encode(appUserRequest.getPassword()));
         AppUser appUser = authRepository.register(appUserRequest);
         String otp = new RandomOtp().generateOtp();
@@ -95,7 +95,7 @@ public class AuthServiceImplementation implements AuthService {
 
     @Override
     public void verify(String email, String otpCode) {
-        AppUser appUser = appUserRepository.getUserByEmail(email);
+        AppUser appUser = authRepository.getUserByEmail(email);
         if (appUser == null) throw new NotFoundException("User doesn't exist");
         if (appUser.getIsVerified()) throw new BadRequestException("User already verified");
 
@@ -110,7 +110,7 @@ public class AuthServiceImplementation implements AuthService {
     @SneakyThrows
     @Override
     public void resend(String email) {
-        AppUser appUser = appUserRepository.getUserByEmail(email);
+        AppUser appUser = authRepository.getUserByEmail(email);
         if (appUser == null) throw new NotFoundException("User doesn't exist");
         if(appUser.getIsVerified()) throw new BadRequestException("User already verified");
         String otp = new RandomOtp().generateOtp();
@@ -125,7 +125,7 @@ public class AuthServiceImplementation implements AuthService {
 
     @Override
     public void forgotPassword(String email) {
-        AppUser appUser = appUserRepository.getUserByEmail(email);
+        AppUser appUser = authRepository.getUserByEmail(email);
         if (appUser == null) throw new NotFoundException("User doesn't exist");
         String otp = new RandomOtp().generateOtp();
 
@@ -139,7 +139,7 @@ public class AuthServiceImplementation implements AuthService {
 
     @Override
     public void verifyForgot(String email, String otpCode) {
-        AppUser appUser = appUserRepository.getUserByEmail(email);
+        AppUser appUser = authRepository.getUserByEmail(email);
         if (appUser == null) throw new NotFoundException("User doesn't exist");
         String storedOTP = redisTemplate.opsForValue().get(email);
         if(storedOTP == null) throw new BadRequestException("OTP already expired");
@@ -148,7 +148,7 @@ public class AuthServiceImplementation implements AuthService {
 
     @Override
     public AppUserResponse resetPassword(String email, String otpCode, String newPassword) {
-        AppUser appUser = appUserRepository.getUserByEmail(email);
+        AppUser appUser = authRepository.getUserByEmail(email);
         if (appUser == null) throw new NotFoundException("User doesn't exist");
 
         String storedOTP = redisTemplate.opsForValue().get(email);

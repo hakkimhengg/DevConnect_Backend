@@ -32,4 +32,10 @@ public interface AuthRepository {
     """)
     AppUser updatePassword(String email, String password);
 
+    @ResultMap("authMapper")
+    @Select("""
+        SELECT * FROM app_users WHERE email = #{email}
+    """)
+    AppUser getUserByEmail(String email);
+
 }
