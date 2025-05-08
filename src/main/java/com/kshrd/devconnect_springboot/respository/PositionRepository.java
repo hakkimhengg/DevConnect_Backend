@@ -12,17 +12,17 @@ import java.util.UUID;
 
 @Mapper
 public interface PositionRepository {
-    @Result(property = "positionId", jdbcType = JdbcType.OTHER, javaType = UUID.class,typeHandler = UuidTypeHandler.class, column = "position_id")
+    @Result(property = "positionId", column = "position_id")
     @Result(property = "positionName", column = "position_name")
     @Select("""
         SELECT * FROM positions
     """)
     List<Position> getAllPosition();
 
-    @Result(property = "positionId", jdbcType = JdbcType.OTHER, javaType = UUID.class,typeHandler = UuidTypeHandler.class, column = "position_id")
+    @Result(property = "positionId", column = "position_id")
     @Result(property = "positionName", column = "position_name")
     @Select("""
-        SELECT * FROM positions WHERE position_id = #{positionId}::uuid
+        SELECT * FROM positions WHERE position_id = #{positionId}
     """)
     Position getPositionById(UUID positionId);
 

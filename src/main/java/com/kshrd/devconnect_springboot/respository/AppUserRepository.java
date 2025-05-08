@@ -12,7 +12,7 @@ import java.util.UUID;
 @Mapper
 public interface AppUserRepository {
     @Results(id = "authMapper", value = {
-            @Result(property = "userId", jdbcType = JdbcType.OTHER, javaType = UUID.class,typeHandler = UuidTypeHandler.class, column = "user_id"),
+            @Result(property = "userId", column = "user_id"),
             @Result(property = "firstName", column = "first_name"),
             @Result(property = "lastName", column = "last_name"),
             @Result(property = "profileImageUrl", column = "profile_image_url"),
