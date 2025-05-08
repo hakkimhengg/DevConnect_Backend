@@ -15,7 +15,7 @@ public interface ResumeRepository {
     @Select("""
         SELECT *
         FROM resume
-        WHERE resume_id = #{id}
+        WHERE developer_id = #{id}
     """)
     @Results(id = "BaseResultMap", value = {
             @Result(property = "resumeId", column = "resume_id"),
@@ -29,7 +29,7 @@ public interface ResumeRepository {
             @Result(property = "information", column = "information" , typeHandler = ResumeInformationTypeHandler.class),
             @Result(property = "developerId", column = "developer_id")
     })
-    Resume selectResumesById(@Param("id") UUID id);
+    Resume selectCurrentResumes(@Param("id") UUID id);
     
     // DELETE Resume
     @Select("""
@@ -73,14 +73,13 @@ public interface ResumeRepository {
          dob = #{resume.dob},
          position = #{resume.position},
          description = #{resume.description},
-         information = #{resume.information, typeHandler=com.kshrd.devconnect_springboot.config.ResumeInformationTypeHandler},
-         developer_id = #{developerId}
-    WHERE resume_id = #{id}
+         information = #{resume.information, typeHandler=com.kshrd.devconnect_springboot.config.ResumeInformationTypeHandler}
+    WHERE developer_id = #{developerId}
     RETURNING *;
     """)
     @ResultMap("BaseResultMap")
     
-    Resume updateResumes(UUID id , @Param("resume") ResumeRequest entity , UUID developerId);
+    Resume updateResumes(@Param("resume") ResumeRequest entity , UUID developerId);
 
     // GET Resume BY Developer ID
     @Select("""

@@ -18,16 +18,16 @@ import java.util.UUID;
 public class ResumeController extends BaseController {
     private final ResumeService resumesService;
 
-    @GetMapping()
+    @GetMapping("get")
     public ResponseEntity<ApiResponse> getCurrentResumes() {
         return response(ApiResponse.builder()
                 .success(true)
                 .status(HttpStatus.OK)
                 .message("Resumes retrieved by id successfully")
-                .payload(resumesService.getResumesById())
+                .payload(resumesService.selectCurrentResumes())
                 .build());
     }
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<ApiResponse> createResumes(@RequestBody ResumeRequest entity) {
         return response(ApiResponse.builder()
                 .success(true)
@@ -36,22 +36,22 @@ public class ResumeController extends BaseController {
                 .payload(resumesService.createResumes(entity))
                 .build());
     }
-    @PutMapping("/{id}")
-    public ResponseEntity<ApiResponse> updateResumes(@PathVariable UUID id, @RequestBody ResumeRequest entity) {
+    @PutMapping("/update")
+    public ResponseEntity<ApiResponse> updateResumes(@RequestBody ResumeRequest entity) {
        return response(ApiResponse.builder()
                 .success(true)
                 .status(HttpStatus.OK)
                 .message("Resumes updated successfully")
-                .payload(resumesService.updateResumes(id, entity))
+                .payload(resumesService.updateResumes(entity))
                 .build());
     }
-    @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponse> deleteResumes(@PathVariable UUID id) {
+    @DeleteMapping("/delete")
+    public ResponseEntity<ApiResponse> deleteResumes() {
        return response(ApiResponse.builder()
                 .success(true)
                 .status(HttpStatus.OK)
                 .message("Resumes deleted successfully")
-                .payload(resumesService.deleteResumes(id))
+                .payload(resumesService.deleteResumes())
                 .build());
     }
 }
