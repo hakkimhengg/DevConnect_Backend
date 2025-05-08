@@ -5,6 +5,7 @@ import com.kshrd.devconnect_springboot.base.BaseController;
 import com.kshrd.devconnect_springboot.model.dto.request.HackathonRequest;
 import com.kshrd.devconnect_springboot.service.HackathonService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import java.util.UUID;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/v1/hackathons")
+@SecurityRequirement(name = "bearerAuth")
 public class HackathonController extends BaseController {
     private final HackathonService hackathonService;
 

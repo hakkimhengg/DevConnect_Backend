@@ -4,6 +4,7 @@ import com.kshrd.devconnect_springboot.base.ApiResponse;
 import com.kshrd.devconnect_springboot.base.BaseController;
 import com.kshrd.devconnect_springboot.model.dto.request.ResumeRequest;
 import com.kshrd.devconnect_springboot.service.ResumeService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,9 +12,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
-@CrossOrigin(origins = "*")
 @RequestMapping("/api/resumes")
 @RequiredArgsConstructor
+@SecurityRequirement(name = "bearerAuth")
 public class ResumeController extends BaseController {
     private final ResumeService resumesService;
 

@@ -12,23 +12,29 @@ import java.util.UUID;
 @Service
 public class ResumeServiceImpl implements ResumeService {
     private final ResumeRepository repository;
-    UUID appUserId = UUID.fromString("a0b1c2d3-e4f5-6789-abcd-ef0123456789");
     public ResumeServiceImpl(ResumeRepository repository) {
         this.repository = repository;
     }
+
     @Override
-    public Resume getResumesById() {
-        return repository.selectResumesById(appUserId);
+    public Resume getResumesById(UUID id) {
+        return repository.selectResumesById(id);
     }
+
+    @Override
+    public List<Resume> getAllResumes() {
+        return repository.selectResumesByDeveloperId(CurrentUser.appUserId);
+    }
+
     @Override
     public Resume createResumes(ResumeRequest entity) {
-        return repository.insertResumes(entity , appUserId);
+        return repository.insertResumes(entity , CurrentUser.appUserId);
     }
 
     @Override
     public Resume updateResumes(UUID id, ResumeRequest entity) {
 
-        return repository.updateResumes(id, entity , appUserId);
+        return repository.updateResumes(id, entity , CurrentUser.appUserId);
     }
 
     @Override
