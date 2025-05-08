@@ -1,5 +1,4 @@
 package com.kshrd.devconnect_springboot.respository;
-
 import com.kshrd.devconnect_springboot.config.UuidTypeHandler;
 import com.kshrd.devconnect_springboot.model.dto.request.ProjectRequest;
 import com.kshrd.devconnect_springboot.model.entity.Project;

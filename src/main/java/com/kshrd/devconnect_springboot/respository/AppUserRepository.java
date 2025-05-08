@@ -15,7 +15,6 @@ public interface AppUserRepository {
             @Result(property = "userId", column = "user_id"),
             @Result(property = "firstName", column = "first_name"),
             @Result(property = "lastName", column = "last_name"),
-            @Result(property = "profileImageUrl", column = "profile_image_url"),
             @Result(property = "isRecruiter", column = "is_recruiter"),
             @Result(property = "isVerified", column = "is_verified"),
             @Result(property = "createdAt", column = "created_at")

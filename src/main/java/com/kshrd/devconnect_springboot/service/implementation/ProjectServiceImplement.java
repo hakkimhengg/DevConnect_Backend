@@ -9,6 +9,7 @@ import com.kshrd.devconnect_springboot.respository.ProjectPositionRepository;
 import com.kshrd.devconnect_springboot.respository.ProjectRepository;
 import com.kshrd.devconnect_springboot.respository.ProjectSkillRepository;
 import com.kshrd.devconnect_springboot.service.ProjectService;
+import com.kshrd.devconnect_springboot.utils.CurrentUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -22,10 +23,6 @@ public class ProjectServiceImplement implements ProjectService {
     private final ProjectRepository projectRepository;
     private final ProjectPositionRepository projectPositionRepository;
     private final ProjectSkillRepository projectSkillRepository;
-
-    public AppUser getCurrentUser() {
-        return (AppUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    }
 
     @Override
     public List<Project> getAllProject(Integer page, Integer size) {
@@ -45,12 +42,12 @@ public class ProjectServiceImplement implements ProjectService {
     @Override
     public List<Project> getAllProjectByUser(Integer page, Integer size) {
         page = (page - 1) * size;
-        return projectRepository.getAllProjectByUser(getCurrentUser().getUserId(), page, size);
+        return projectRepository.getAllProjectByUser(CurrentUser.appUserId, page, size);
     }
 
     @Override
     public Project getProjectByIdAndUser(UUID projectId) {
-        Project project = projectRepository.getProjectByIdAndUser(getCurrentUser().getUserId(), projectId);
+        Project project = projectRepository.getProjectByIdAndUser(CurrentUser.appUserId, projectId);
         if(project == null) {
             throw new NotFoundException("Project not found");
         }
@@ -59,7 +56,7 @@ public class ProjectServiceImplement implements ProjectService {
 
     @Override
     public Project createProject(ProjectRequest projectRequest) {
-        Project project = projectRepository.createProjectByUser(getCurrentUser().getUserId(), projectRequest);
+        Project project = projectRepository.createProjectByUser(CurrentUser.appUserId, projectRequest);
         for (UUID p : projectRequest.getSkills()) {
             projectSkillRepository.createProjectSkill(project.getProjectId(), p);
         }
