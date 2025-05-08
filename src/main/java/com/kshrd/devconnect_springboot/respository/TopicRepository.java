@@ -29,7 +29,7 @@ public interface TopicRepository {
     @Results(id = "BaseResultMap", value = {
             @Result(property = "topicId", column = "topic_id"),
             @Result(property = "content", column = "content"),
-            @Result(property = "postedAt", column = "posted_at"),
+            @Result(property = "postedAt", column = "created_at"),
             @Result(property = "creator", column = "creator_id" ,
                     one = @One(select = "com.kshrd.devconnect_springboot.respository.AppUserRepository.getUserById")),
             @Result(property = "comments", column = "topic_id",
