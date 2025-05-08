@@ -16,22 +16,14 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ResumeController extends BaseController {
     private final ResumeService resumesService;
-    @GetMapping
-    public ResponseEntity<ApiResponse> getAllResumes() {
-        return response(ApiResponse.builder()
-                .success(true)
-                .status(HttpStatus.OK)
-                .message("Resumes retrieved successfully")
-                .payload(resumesService.getAllResumes())
-                .build());
-        }
-    @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse> getResumesById(@PathVariable UUID id) {
+
+    @GetMapping()
+    public ResponseEntity<ApiResponse> getCurrentResumes() {
         return response(ApiResponse.builder()
                 .success(true)
                 .status(HttpStatus.OK)
                 .message("Resumes retrieved by id successfully")
-                .payload(resumesService.getResumesById(id))
+                .payload(resumesService.getResumesById())
                 .build());
     }
     @PostMapping
