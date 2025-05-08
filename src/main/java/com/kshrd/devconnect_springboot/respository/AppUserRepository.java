@@ -1,7 +1,7 @@
 package com.kshrd.devconnect_springboot.respository;
 
 import com.kshrd.devconnect_springboot.config.UuidTypeHandler;
-import com.kshrd.devconnect_springboot.model.dto.request.AppUserRequest;
+import com.kshrd.devconnect_springboot.model.dto.response.AppUserResponse;
 import com.kshrd.devconnect_springboot.model.entity.AppUser;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
@@ -20,15 +20,15 @@ public interface AppUserRepository {
             @Result(property = "createdAt", column = "created_at")
     })
     @Select("""
-        SELECT * FROM app_users WHERE email = #{email}
-    """)
-    AppUser getUserByEmail(String email);
-
-    @ResultMap("authMapper")
-    @Select("""
         SELECT * FROM app_users WHERE user_id = #{id}
     """)
-    AppUser getUserById(UUID id);
+    AppUserResponse getUserById(UUID id);
+
+    @Select("""
+        SELECT * FROM app_users WHERE email = #{email}
+    """)
+    @ResultMap("authMapper")
+    AppUser getUserByEmail(String email);
 
     @Update("""
          UPDATE app_users SET is_verified = true WHERE email = #{email}
