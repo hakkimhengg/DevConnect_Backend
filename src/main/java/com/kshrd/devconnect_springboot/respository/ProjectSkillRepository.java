@@ -10,10 +10,10 @@ import java.util.UUID;
 
 @Mapper
 public interface ProjectSkillRepository {
-    @Result(property = "skillId", jdbcType = JdbcType.OTHER, javaType = UUID.class,typeHandler = UuidTypeHandler.class, column = "skill_id")
+    @Result(property = "skillId", column = "skill_id")
     @Result(property = "skillName", column = "skill_name")
     @Select("""
-        SELECT * FROM project_skills ps INNER JOIN skills s ON s.skill_id = ps.skill_id WHERE project_id = #{projectId}::uuid
+        SELECT * FROM project_skills ps INNER JOIN skills s ON s.skill_id = ps.skill_id WHERE project_id = #{projectId}
     """)
     List<Skill> getSkillByProjectId(UUID projectId);
 
@@ -23,7 +23,7 @@ public interface ProjectSkillRepository {
     void createProjectSkill(UUID projectId, UUID skillId);
 
     @Delete("""
-        DELETE FROM project_skills WHERE project_id = #{projectId}::uuid
+        DELETE FROM project_skills WHERE project_id = #{projectId}
     """)
     void deleteAllProjectSkill(UUID projectId);
 }

@@ -1,6 +1,7 @@
 package com.kshrd.devconnect_springboot.respository;
 
 import com.kshrd.devconnect_springboot.config.UuidTypeHandler;
+import com.kshrd.devconnect_springboot.model.dto.request.AppUserRequest;
 import com.kshrd.devconnect_springboot.model.dto.response.AppUserResponse;
 import com.kshrd.devconnect_springboot.model.entity.AppUser;
 import org.apache.ibatis.annotations.*;
@@ -11,7 +12,7 @@ import java.util.UUID;
 @Mapper
 public interface AppUserRepository {
     @Results(id = "authMapper", value = {
-            @Result(property = "userId", jdbcType = JdbcType.OTHER, javaType = UUID.class,typeHandler = UuidTypeHandler.class, column = "user_id"),
+            @Result(property = "userId", column = "user_id"),
             @Result(property = "firstName", column = "first_name"),
             @Result(property = "lastName", column = "last_name"),
             @Result(property = "profileImageUrl", column = "profile_image_url"),
@@ -24,10 +25,10 @@ public interface AppUserRepository {
     """)
     AppUserResponse getUserById(UUID id);
 
+    @ResultMap("authMapper")
     @Select("""
         SELECT * FROM app_users WHERE email = #{email}
     """)
-    @ResultMap("authMapper")
     AppUser getUserByEmail(String email);
 
     @Update("""

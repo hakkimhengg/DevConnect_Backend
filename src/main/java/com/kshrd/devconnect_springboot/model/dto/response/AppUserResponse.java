@@ -16,7 +16,6 @@ public class AppUserResponse {
     private String firstName;
     private String lastName;
     private String email;
-    private String profileImageUrl;
     private Boolean isRecruiter;
     private Boolean isVerified;
     private LocalDateTime createdAt;

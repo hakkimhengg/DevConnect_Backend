@@ -12,17 +12,17 @@ import java.util.UUID;
 
 @Mapper
 public interface SkillRepository {
-    @Result(property = "skillId", jdbcType = JdbcType.OTHER, javaType = UUID.class,typeHandler = UuidTypeHandler.class, column = "skill_id")
+    @Result(property = "skillId", column = "skill_id")
     @Result(property = "skillName", column = "skill_name")
     @Select("""
         SELECT * FROM skills
     """)
     List<Skill> getAllSkill();
 
-    @Result(property = "skillId", jdbcType = JdbcType.OTHER, javaType = UUID.class,typeHandler = UuidTypeHandler.class, column = "skill_id")
+    @Result(property = "skillId", column = "skill_id")
     @Result(property = "skillName", column = "skill_name")
     @Select("""
-        SELECT * FROM skills WHERE skill_id = #{skillId}::uuid
+        SELECT * FROM skills WHERE skill_id = #{skillId}
     """)
     Skill getSkillById(UUID skillId);
 }

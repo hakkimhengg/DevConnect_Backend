@@ -35,10 +35,7 @@ public class SecurityConfig {
                         .requestMatchers("api/v1/auths/**", "/v3/api-docs/**",
                                 "/swagger-ui/**",
                                 "/swagger-ui.html",
-                                "/api/v1/files/**",
-                                "/api/comments/**",
-                                "api/topics/**",
-                                "api/upvote/**"
+                                "/api/v1/files/**"
                         ).permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(sessionn -> sessionn.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
