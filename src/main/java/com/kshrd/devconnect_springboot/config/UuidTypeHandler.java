@@ -34,4 +34,3 @@ public class UuidTypeHandler extends BaseTypeHandler<UUID> {
         return cs.getObject(columnIndex, UUID.class);
     }
 }
-
