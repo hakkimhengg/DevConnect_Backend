@@ -24,6 +24,12 @@ public interface AppUserRepository {
     """)
     AppUser getUserByEmail(String email);
 
+    @ResultMap("authMapper")
+    @Select("""
+        SELECT * FROM app_users WHERE user_id = #{id}
+    """)
+    AppUser getUserById(UUID id);
+
     @Update("""
          UPDATE app_users SET is_verified = true WHERE email = #{email}
     """)
