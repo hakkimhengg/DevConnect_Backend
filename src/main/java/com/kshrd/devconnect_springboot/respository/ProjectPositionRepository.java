@@ -10,10 +10,10 @@ import java.util.UUID;
 
 @Mapper
 public interface ProjectPositionRepository {
-    @Result(property = "positionId", jdbcType = JdbcType.OTHER, javaType = UUID.class,typeHandler = UuidTypeHandler.class, column = "position_id")
+    @Result(property = "positionId", column = "position_id")
     @Result(property = "positionName", column = "position_name")
     @Select("""
-        SELECT * FROM project_positions pp INNER JOIN positions p ON p.position_id = pp.position_id WHERE project_id = #{projectId}::uuid
+        SELECT * FROM project_positions pp INNER JOIN positions p ON p.position_id = pp.position_id WHERE project_id = #{projectId}
     """)
     List<Position> getAllProjectPositionById(UUID projectId);
 
@@ -23,7 +23,7 @@ public interface ProjectPositionRepository {
     void createProjectPosition(UUID projectId, UUID positionId);
 
     @Delete("""
-        DELETE FROM project_positions WHERE project_id = #{projectId}::uuid
+        DELETE FROM project_positions WHERE project_id = #{projectId}
     """)
     void deleteAllProjectPosition(UUID projectId);
 }

@@ -11,6 +11,16 @@ CREATE TABLE IF NOT EXISTS app_users
     is_verified BOOLEAN DEFAULT false,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+-- job_types
+CREATE TABLE IF NOT EXISTS job_types (
+                                         job_type_id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+                                         type_name VARCHAR(50) not null unique
+);
+-- skill
+CREATE TABLE IF NOT EXISTS skills (
+                                      skill_id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+                                      skill_name VARCHAR(50) not null unique
+);
 
 CREATE TABLE IF NOT EXISTS developers (
     developer_id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -43,12 +53,6 @@ CREATE TABLE IF NOT EXISTS recruiters (
     user_id UUID REFERENCES app_users(user_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
--- job_types
-CREATE TABLE IF NOT EXISTS job_types (
-   job_type_id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-   type_name VARCHAR(50) not null unique
-);
-
 -- jobs
 CREATE TABLE IF NOT EXISTS jobs (
       job_id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -70,11 +74,6 @@ CREATE TABLE IF NOT EXISTS job_skills (
     CONSTRAINT pk_job_skill PRIMARY KEY (job_id, skill_id)
 );
 
--- skill
-CREATE TABLE IF NOT EXISTS skills (
-   skill_id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-   skill_name VARCHAR(50) not null unique
-);
 
 -- developer_skill
 CREATE TABLE IF NOT EXISTS developer_skills (
@@ -101,6 +100,14 @@ CREATE TABLE IF NOT EXISTS developer_badges (
     CONSTRAINT fk_badge_id FOREIGN KEY (badge_id) REFERENCES badges(badge_id) ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT pk_developer_badge PRIMARY KEY (developer_id, badge_id)
 );
+-- topics
+CREATE TABLE IF NOT EXISTS topics (
+                                      topic_id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+                                      content VARCHAR not null ,
+                                      created_at TIMESTAMP DEFAULT current_timestamp,
+                                      creator_id UUID REFERENCES app_users(user_id) on delete cascade on update cascade
+);
+
 
 -- comments
 CREATE TABLE IF NOT EXISTS comments (
@@ -114,13 +121,6 @@ CREATE TABLE IF NOT EXISTS comments (
       user_id UUID REFERENCES app_users(user_id) on delete cascade on update cascade
 );
 
--- topics
-CREATE TABLE IF NOT EXISTS topics (
-    topic_id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    content VARCHAR not null ,
-    created_at TIMESTAMP DEFAULT current_timestamp,
-    creator_id UUID REFERENCES app_users(user_id) on delete cascade on update cascade
-);
 
 -- upvote
 CREATE TABLE IF NOT EXISTS upvote (
@@ -175,7 +175,7 @@ CREATE TABLE IF NOT EXISTS submissions (
     submit_time VARCHAR(50) not null ,
     challenge_id UUID NOT NULL,
     developer_id UUID NOT NULL,
-    CONSTRAINT fk_challenge_id FOREIGN KEY (challenge_id) REFERENCES code_challenges(challenge_id) ON DELETE CASCADE ON DELETE CASCADE,
+    CONSTRAINT fk_challenge_id FOREIGN KEY (challenge_id) REFERENCES code_challenges(challenge_id) ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT fk_developer_id FOREIGN KEY (developer_id) REFERENCES developers(developer_id) ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT pk_submission PRIMARY KEY (challenge_id, developer_id)
 );
@@ -196,6 +196,7 @@ CREATE TABLE IF NOT EXISTS hackathons (
 CREATE TABLE IF NOT EXISTS join_hackathons (
     score INTEGER DEFAULT 0,
     joined_at TIMESTAMP DEFAULT current_timestamp,
+    submission varchar,
     developer_id UUID NOT NULL,
     hackathon_id UUID NOT NULL,
     CONSTRAINT fk_developer_id FOREIGN KEY (developer_id) REFERENCES developers(developer_id) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -211,7 +212,7 @@ CREATE TABLE IF NOT EXISTS hackathon_certificate (
    hackathon_id UUID NOT NULL,
    CONSTRAINT fk_developer_id FOREIGN KEY (developer_id) REFERENCES developers(developer_id) ON DELETE CASCADE ON UPDATE CASCADE,
    CONSTRAINT fk_hackathon_id FOREIGN KEY (hackathon_id) REFERENCES hackathons(hackathon_id) ON DELETE CASCADE ON UPDATE CASCADE,
-   CONSTRAINT pk_join_hackathon PRIMARY KEY (developer_id, hackathon_id)
+   CONSTRAINT pk_hackathon_certificate PRIMARY KEY (developer_id, hackathon_id)
 );
 
 -- projects
@@ -232,7 +233,6 @@ CREATE TABLE IF NOT EXISTS positions (
 
 -- position_limits
 CREATE TABLE IF NOT EXISTS project_positions (
-     position_limit_id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
      max_members INTEGER DEFAULT 0,
      project_id UUID NOT NULL,
      positions_id UUID NOT NULL,
@@ -269,5 +269,5 @@ CREATE TABLE IF NOT EXISTS bookmarks (
      bookmark_by UUID NOT NULL,
      CONSTRAINT fk_bookmark_by FOREIGN KEY (bookmark_by) REFERENCES app_users(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
      CONSTRAINT pk_bookmarks PRIMARY KEY (target_id, bookmark_by, target_type),
-     CONSTRAINT chk_target_type CHECK (target_type IN ('project', 'comment', 'hackathon', 'recruiter', 'developer', 'job', ''))
+     CONSTRAINT chk_target_type CHECK (target_type IN ('project', 'hackathon', 'recruiter', 'developer', 'job'))
 );
