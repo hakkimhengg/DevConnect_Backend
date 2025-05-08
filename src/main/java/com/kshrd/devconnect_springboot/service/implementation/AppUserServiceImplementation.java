@@ -17,8 +17,4 @@ public class AppUserServiceImplementation implements AppUserService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         return appUserRepository.getUserByEmail(email);
     }
-
-    public AppUser getCurrentUser() {
-        return (AppUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    }
 }

@@ -23,7 +23,6 @@ public class ProjectServiceImplement implements ProjectService {
     private final ProjectRepository projectRepository;
     private final ProjectPositionRepository projectPositionRepository;
     private final ProjectSkillRepository projectSkillRepository;
-    private final AppUser currentUser = CurrentUser.appUser;
 
     @Override
     public List<Project> getAllProject(Integer page, Integer size) {
@@ -43,12 +42,12 @@ public class ProjectServiceImplement implements ProjectService {
     @Override
     public List<Project> getAllProjectByUser(Integer page, Integer size) {
         page = (page - 1) * size;
-        return projectRepository.getAllProjectByUser(currentUser.getUserId(), page, size);
+        return projectRepository.getAllProjectByUser(CurrentUser.appUserId, page, size);
     }
 
     @Override
     public Project getProjectByIdAndUser(UUID projectId) {
-        Project project = projectRepository.getProjectByIdAndUser(currentUser.getUserId(), projectId);
+        Project project = projectRepository.getProjectByIdAndUser(CurrentUser.appUserId, projectId);
         if(project == null) {
             throw new NotFoundException("Project not found");
         }
@@ -57,7 +56,7 @@ public class ProjectServiceImplement implements ProjectService {
 
     @Override
     public Project createProject(ProjectRequest projectRequest) {
-        Project project = projectRepository.createProjectByUser(currentUser.getUserId(), projectRequest);
+        Project project = projectRepository.createProjectByUser(CurrentUser.appUserId, projectRequest);
         for (UUID p : projectRequest.getSkills()) {
             projectSkillRepository.createProjectSkill(project.getProjectId(), p);
         }
