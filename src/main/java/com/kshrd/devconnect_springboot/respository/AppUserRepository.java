@@ -25,20 +25,6 @@ public interface AppUserRepository {
     """)
     AppUserResponse getUserById(UUID id);
 
-    @Select("""
-        SELECT * FROM app_users WHERE email = #{email}
-    """)
-    @Results(id = "mapperAuth", value = {
-            @Result(property = "userId", column = "user_id"),
-            @Result(property = "firstName", column = "first_name"),
-            @Result(property = "lastName", column = "last_name"),
-            @Result(property = "profileImageUrl", column = "profile_image_url"),
-            @Result(property = "isRecruiter", column = "is_recruiter"),
-            @Result(property = "isVerified", column = "is_verified"),
-            @Result(property = "createdAt", column = "created_at")
-    })
-    AppUser getUserByEmail(String email);
-
     @Update("""
          UPDATE app_users SET is_verified = true WHERE email = #{email}
     """)
